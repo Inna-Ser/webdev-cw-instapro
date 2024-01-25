@@ -4,13 +4,15 @@ const personalKey = "prod";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
-export function getPosts({ token }) {
+export function getPosts({
+  token
+}) {
   return fetch(postsHost, {
-    method: "GET",
-    headers: {
-      Authorization: token,
-    },
-  })
+      method: "GET",
+      headers: {
+        Authorization: token,
+      },
+    })
     .then((response) => {
       if (response.status === 401) {
         throw new Error("Нет авторизации");
@@ -24,7 +26,12 @@ export function getPosts({ token }) {
 }
 
 // https://github.com/GlebkaF/webdev-hw-api/blob/main/pages/api/user/README.md#%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%D1%81%D1%8F
-export function registerUser({ login, password, name, imageUrl }) {
+export function registerUser({
+  login,
+  password,
+  name,
+  imageUrl
+}) {
   return fetch(baseHost + "/api/user", {
     method: "POST",
     body: JSON.stringify({
@@ -41,7 +48,10 @@ export function registerUser({ login, password, name, imageUrl }) {
   });
 }
 
-export function loginUser({ login, password }) {
+export function loginUser({
+  login,
+  password
+}) {
   return fetch(baseHost + "/api/user/login", {
     method: "POST",
     body: JSON.stringify({
@@ -57,7 +67,9 @@ export function loginUser({ login, password }) {
 }
 
 // Загружает картинку в облако, возвращает url загруженной картинки
-export function uploadImage({ file }) {
+export function uploadImage({
+  file
+}) {
   const data = new FormData();
   data.append("file", file);
 
@@ -67,4 +79,26 @@ export function uploadImage({ file }) {
   }).then((response) => {
     return response.json();
   });
+}
+
+export function toDoPost({
+  postText,
+  token,
+  imageUrl
+}) {
+  return fetch(postsHost, {
+    method: "POST",
+    headers: {
+      Authorization: token
+    },
+    body: JSON.stringify({
+      description: postText.value
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll('QUOTE_END', '</div>'),
+      imageUrl
+    }),
+  })
 }

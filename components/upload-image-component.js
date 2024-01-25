@@ -56,3 +56,7 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
 
   render();
 }
+
+export function renderToDoPostComponent() {
+  
+}
