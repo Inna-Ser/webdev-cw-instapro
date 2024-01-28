@@ -31,7 +31,7 @@ export function renderAddPostPageComponent({
 
     appEl.innerHTML = appHtml;
 
-// что это значит?
+    // что это значит?
     const uploadImageContainer = appEl.querySelector(".upload-image-container");
 
     renderHeaderComponent({
@@ -47,15 +47,13 @@ export function renderAddPostPageComponent({
       });
     }
     // toDo получить текст по селектору
-    let textPost = document.querySelector("textarea").value
-
+    let textPost = document.querySelector(".textarea")
+    console.log(textPost)
     document.getElementById("add-button").addEventListener("click", () => {
       onAddPostClick({
-        description: "Описание картинки",
-        textPost,
+        description: textPost.value,
         imageUrl: imageUrl,
       });
-      renderAddPostPageComponent()
     });
   };
 

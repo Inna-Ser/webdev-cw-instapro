@@ -1,5 +1,6 @@
 import {
   getPosts,
+  getUserPosts,
   toDoPost
 } from "./api.js";
 import {
@@ -26,6 +27,9 @@ import {
   removeUserFromLocalStorage,
   saveUserToLocalStorage,
 } from "./helpers.js";
+import {
+  userPostsPageComponents
+} from "./components/user-posts-page-components.js";
 
 
 export let user = getUserFromLocalStorage();
@@ -80,22 +84,30 @@ export const goToPage = (newPage, data) => {
         });
     }
 
+
     if (newPage === USER_POSTS_PAGE) {
+      page = LOADING_PAGE;
+      renderApp();
       // TODO: реализовать получение постов юзера из API
-      console.log("Открываю страницу пользователя: ", data.userId);
-      page = USER_POSTS_PAGE;
-      posts = [];
-      return renderApp();
+      const postUserId = document.getElementById("${post.user.id}")
+
+      return getUserPosts({
+          token: getToken(),
+          id: data.userId
+        })
+        .then((userPosts) => {
+          console.log("Открываю страницу пользователя: ", data.userId);
+          page = newPage;
+          page = USER_POSTS_PAGE;
+          posts = userPosts;
+          renderApp();
+        })
     }
 
-    page = newPage;
-    renderApp();
+    throw new Error("страницы не существует");
+  };
+}
 
-    return;
-  }
-
-  throw new Error("страницы не существует");
-};
 
 const renderApp = () => {
   const appEl = document.getElementById("app");
@@ -128,12 +140,14 @@ const renderApp = () => {
         imageUrl
       }) {
         // TODO: реализовать добавление поста в API поместить функцию из API прокинумт токен
-        toDoPost(description, getToken, imageUrl)
-        console.log("Добавляю пост...", {
-          description,
-          imageUrl
-        });
-        goToPage(POSTS_PAGE);
+        toDoPost({
+            postText: description,
+            token: getToken(),
+            imageUrl: imageUrl
+          })
+          .then(() => {
+            goToPage(POSTS_PAGE)
+          });
       },
     });
   }
@@ -141,14 +155,23 @@ const renderApp = () => {
   if (page === POSTS_PAGE) {
     return renderPostsPageComponent({
       appEl,
+    })
+    .then ((Response) => {
+      pushLikeButton({token: getToken(),
+      id: data.postUserId})
+    })
+  }
+  if (page === USER_POSTS_PAGE) {
+    // TODO: реализовать страницу фотографию пользвателя
+    return userPostsPageComponents({
+      appEl
     });
   }
 
-  if (page === USER_POSTS_PAGE) {
-    // TODO: реализовать страницу фотографию пользвателя
-    appEl.innerHTML = "Здесь будет страница фотографий пользователя";
-    return;
-  }
 };
 
 goToPage(POSTS_PAGE);
+
+if (page === POSTS_PAGE) {
+
+}

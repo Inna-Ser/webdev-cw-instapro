@@ -69,4 +69,35 @@ export function renderPostsPageComponent({
       });
     });
   }
+
+  const likeButtons = document.querySelectorAll(".like-button");
+  for (let likeButton of likeButtons) {
+    likeButton.addEventListener("click", () => {
+      const index = likeButton.closest(".posts").dataset.index
+
+      delay(2000).then(() => {
+        posts.likes = posts.isLiked ?
+          posts.likes - 1 :
+          posts.likes + 1
+        posts.isLiked = !posts.isLiked
+        posts.isLikeLoading = false
+        renderPostsPageComponent(posts)
+      })
+      if (posts[index].isLike === false) {
+        posts[index].isLike = true
+        posts[index].like++
+      } else {
+        posts[index].isLike = false
+        posts[index].like--
+      }
+      renderPostsPageComponent(posts)
+    })
+  }
+}
+
+const postsElement = document.querySelectorAll(".post");
+for (let postElement of postsElement) {
+  postElement.addEventListener("click", () => {
+
+  })
 }
