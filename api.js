@@ -1,7 +1,5 @@
 // Замени на свой, чтобы получить независимый от других набор данных.
 
-import { renderPostsPageComponent } from "./components/posts-page-component";
-
 // "боевая" версия инстапро лежит в ключе prod
 const personalKey = "prod";
 const baseHost = "https://webdev-hw-api.vercel.app";
@@ -132,14 +130,19 @@ export function pushLikeButton({
   id
 }) {
   return fetch(`${postsHost}/${id}/like`, {
-    method: "POST",
-    headers: {
-      Authorization: token
-    }
-  })
-  .then(() => {
-    renderPostsPageComponent();
-  })
+      method: "POST",
+      headers: {
+        Authorization: token
+      }
+    })
+    .then((response) => {
+      console.log(response)
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data.post;
+    })
 }
 
 export function cancelLikeButton({
@@ -147,19 +150,26 @@ export function cancelLikeButton({
   id
 }) {
   return fetch(`${postsHost}/${id}/dislike`, {
-    method: "POST",
-    headers: {
-      Authorization: token
-    }
-  })
-  .then
+      method: "POST",
+      headers: {
+        Authorization: token
+      }
+    })
+    .then((response) => {
+      console.log(response)
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data.post;
+    })
 }
 
-export function deletePost ({
+export function deletePost({
   token,
   id
 }) {
-  return fetch(postsHost/id, {
+  return fetch(`${postsHost}/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: token

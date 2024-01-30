@@ -1,4 +1,5 @@
 import {
+  POSTS_PAGE,
   USER_POSTS_PAGE
 } from "../routes.js";
 import {
@@ -8,9 +9,17 @@ import {
   posts,
   goToPage
 } from "../index.js";
+import {
+  cancelLikeButton,
+  pushLikeButton
+} from "../api.js";
+import {
+  formatDistanceToNow
+} from "date-fns";
 
 export function renderPostsPageComponent({
-  appEl
+  appEl,
+  getToken
 }) {
   // TODO: реализовать рендер постов из api
   console.log("Актуальный список постов:", posts);
@@ -19,6 +28,7 @@ export function renderPostsPageComponent({
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
+  // const currentDate = parse(post.createdAt, 'yyyy-dd-MM HH:mm', new Date());
   const postListHTML = posts.map((post) => {
       return `<li class="post">
     <div class="post-header" data-user-id="${post.user.id}">
@@ -29,21 +39,20 @@ export function renderPostsPageComponent({
       <img class="post-image" src="${post.imageUrl}">
     </div>
     <div class="post-likes">
-      <button class="${post.isLiked ? 'like-button -active-like' : 'like-button'}" data-post-id="${post.id}" 
+      <button class="like-button" data-liked="${post.isLiked}" data-post-id="${post.id}" 
       >
-        <img src="./assets/images/like-active.svg">
+        <img class="like-img" src="./assets/images/like-${post.isLiked ? '' : 'not-'}active.svg">
       </button>
       <p class="post-likes-text">
         ${post.likes.length}
       </p>
     </div>
-    <p class="post-text">
-      <span class="user-name">${post.user.name}</span>
-      ${post.description}
-    </p>
+    <div class="description-container">
+    <h3>${post.description}</h3>
     <p class="post-date">
-      ${post.createdAt}
+      ${formatDistanceToNow(parse(post.createdAt, 'yyyy-dd-MM HH:mm', new Date()), 'D:H:mm:ss')}
     </p>
+    </div>
   </li>`
     })
     .join('')
@@ -73,24 +82,32 @@ export function renderPostsPageComponent({
   const likeButtons = document.querySelectorAll(".like-button");
   for (let likeButton of likeButtons) {
     likeButton.addEventListener("click", () => {
-      const index = likeButton.closest(".posts").dataset.index
-
-      delay(2000).then(() => {
-        posts.likes = posts.isLiked ?
-          posts.likes - 1 :
-          posts.likes + 1
-        posts.isLiked = !posts.isLiked
-        posts.isLikeLoading = false
-        renderPostsPageComponent(posts)
-      })
-      if (posts[index].isLike === false) {
-        posts[index].isLike = true
-        posts[index].like++
+      console.log("test");
+      const id = likeButton.dataset.postId
+      if (likeButton.dataset.liked === "false") {
+        pushLikeButton({
+            token: getToken(),
+            id
+          })
+          .then((data) => {
+            const post = likeButton.closest(".post");
+            console.log(data.likes.length, post)
+            post.querySelector(".post-likes-text").textContent = data.likes.length
+            post.querySelector(".like-img").src = "./assets/images/like-active.svg"
+            likeButton.dataset.liked = "true";
+          })
       } else {
-        posts[index].isLike = false
-        posts[index].like--
+        cancelLikeButton({
+            token: getToken(),
+            id
+          })
+          .then((data) => {
+            const post = likeButton.closest(".post");
+            post.querySelector(".post-likes-text").textContent = data.likes.length
+            post.querySelector(".like-img").src = "./assets/images/like-not-active.svg"
+            likeButton.dataset.liked = "false";
+          })
       }
-      renderPostsPageComponent(posts)
     })
   }
 }

@@ -155,16 +155,14 @@ const renderApp = () => {
   if (page === POSTS_PAGE) {
     return renderPostsPageComponent({
       appEl,
-    })
-    .then ((Response) => {
-      pushLikeButton({token: getToken(),
-      id: data.postUserId})
+      getToken
     })
   }
   if (page === USER_POSTS_PAGE) {
     // TODO: реализовать страницу фотографию пользвателя
     return userPostsPageComponents({
-      appEl
+      appEl,
+      getToken
     });
   }
 
