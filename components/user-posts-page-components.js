@@ -1,4 +1,7 @@
 import {
+  formatDistanceToNow
+} from "date-fns";
+import {
   cancelLikeButton,
   deletePost,
   pushLikeButton
@@ -10,6 +13,9 @@ import {
 import {
   renderHeaderComponent
 } from "./header-component.js";
+import {
+  ru
+} from "date-fns/locale";
 
 export function userPostsPageComponents({
   appEl,
@@ -35,12 +41,11 @@ export function userPostsPageComponents({
       ${post.user.id === user._id ? `<p class="delete">Удалить</p>` : ""} 
       </button>
       </div>
-      <p class="post-text">
-        <span class="user-name">${post.user.name}</span>
+      <h3 class="post-text">
         ${post.description}
-      </p>
+      </h3>
       <p class="post-date">
-        ${post.createdAt}
+      ${formatDistanceToNow(new Date(post.createdAt), ru)}
       </p>
     </li>`
     })
@@ -60,8 +65,6 @@ export function userPostsPageComponents({
 
   appEl.innerHTML = appHtml;
 
-
-  // delete-button.
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
   });
@@ -74,7 +77,7 @@ export function userPostsPageComponents({
           token: getToken(),
           id
         })
-        .then((response) => {
+        .then(() => {
           userPostsPageComponents({
             appEl,
             getToken

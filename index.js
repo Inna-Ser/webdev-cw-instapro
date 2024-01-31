@@ -1,6 +1,7 @@
 import {
   getPosts,
   getUserPosts,
+  loginUser,
   toDoPost
 } from "./api.js";
 import {
@@ -14,6 +15,7 @@ import {
   AUTH_PAGE,
   LOADING_PAGE,
   POSTS_PAGE,
+  POST_PAGE,
   USER_POSTS_PAGE,
 } from "./routes.js";
 import {
@@ -47,6 +49,7 @@ export const logout = () => {
   goToPage(POSTS_PAGE);
 };
 
+
 /**
  * Включает страницу приложения
  */
@@ -58,6 +61,7 @@ export const goToPage = (newPage, data) => {
       ADD_POSTS_PAGE,
       USER_POSTS_PAGE,
       LOADING_PAGE,
+      POST_PAGE,
     ].includes(newPage)
   ) {
     if (newPage === ADD_POSTS_PAGE) {
@@ -102,6 +106,19 @@ export const goToPage = (newPage, data) => {
           posts = userPosts;
           renderApp();
         })
+    }
+
+    if (newPage === AUTH_PAGE) {
+      page = LOADING_PAGE;
+      renderApp();
+      return loginUser({
+        login: ,
+        password: 
+      })
+      // loginUser({
+      //   login,
+      //   password
+      // })
     }
 
     throw new Error("страницы не существует");
@@ -169,7 +186,3 @@ const renderApp = () => {
 };
 
 goToPage(POSTS_PAGE);
-
-if (page === POSTS_PAGE) {
-
-}

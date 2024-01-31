@@ -47,6 +47,16 @@ export function getUserPosts({
       return data.posts;
     });
 }
+
+export function getPost({
+  token,
+  id
+}) {
+  return fetch(`${postsHost}/${id}`, {
+    method: "GET",
+    
+  })
+}
 // https://github.com/GlebkaF/webdev-hw-api/blob/main/pages/api/user/README.md#%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%D1%81%D1%8F
 export function registerUser({
   login,
@@ -169,7 +179,7 @@ export function deletePost({
   token,
   id
 }) {
-  return fetch(`${postsHost}/${id}`, {
+  return fetch(`${postsHost}/user-posts/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: token

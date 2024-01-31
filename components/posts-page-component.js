@@ -16,6 +16,9 @@ import {
 import {
   formatDistanceToNow
 } from "date-fns";
+import {
+  ru
+} from "date-fns/locale";
 
 export function renderPostsPageComponent({
   appEl,
@@ -28,12 +31,11 @@ export function renderPostsPageComponent({
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
-  // const currentDate = parse(post.createdAt, 'yyyy-dd-MM HH:mm', new Date());
   const postListHTML = posts.map((post) => {
       return `<li class="post">
     <div class="post-header" data-user-id="${post.user.id}">
         <img src="${post.user.imageUrl}" class="post-header__user-image">
-        <p class="post-header__user-name">${post.user.name}</p>
+        <h3 class="post-header__user-name">${post.user.name}</h3>
     </div>
     <div class="post-image-container">
       <img class="post-image" src="${post.imageUrl}">
@@ -47,12 +49,12 @@ export function renderPostsPageComponent({
         ${post.likes.length}
       </p>
     </div>
-    <div class="description-container">
-    <h3>${post.description}</h3>
+    <h3 class="post-text">
+        ${post.description}
+      </h3>
     <p class="post-date">
-      ${formatDistanceToNow(parse(post.createdAt, 'yyyy-dd-MM HH:mm', new Date()), 'D:H:mm:ss')}
+      ${formatDistanceToNow(new Date(post.createdAt), ru)}
     </p>
-    </div>
   </li>`
     })
     .join('')

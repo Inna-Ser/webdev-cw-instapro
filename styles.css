@@ -87,6 +87,7 @@
 
 .like-button {
     border: none;
+    border-color: transparent;
     background-color: transparent;
 }
 
@@ -94,16 +95,18 @@
   animation: rotating 2s linear infinite;
 }
 
-.description-container {
-  display: flex;
-  justify-content: space-between;
-}
-
 .functional-container {
-  display: flex;
+    display: flex;
     justify-content: space-between;
     padding-top: 10px;
+}
 
+.delete-button {
+  border: none;
+  background-color: transparent;
+  :hover {
+    text-decoration-line: underline;
+  }
 }
 
 .user-name {
