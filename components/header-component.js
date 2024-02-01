@@ -19,7 +19,7 @@ export function renderHeaderComponent({
       ${
         user
           ? `<div title="Добавить пост" class="add-post-sign"></div>`
-          : `<button class="enter">Войти</button>`
+          : "Войти"
       }
       </button>
       ${
@@ -45,9 +45,9 @@ export function renderHeaderComponent({
     goToPage(POSTS_PAGE);
   });
 
-  element.querySelector(".enter").addEventListener("click", () => {
-    goToPage(AUTH_PAGE);
-  })
+  // element.querySelector(".enter").addEventListener("click", () => {
+  //   goToPage(AUTH_PAGE);
+  // })
 
   element.querySelector(".logout-button")?.addEventListener("click", logout);
 

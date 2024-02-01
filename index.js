@@ -110,16 +110,19 @@ export const goToPage = (newPage, data) => {
 
     if (newPage === AUTH_PAGE) {
       page = LOADING_PAGE;
-      renderApp();
-      return loginUser({
-        login: ,
-        password: 
-      })
-      // loginUser({
-      //   login,
-      //   password
-      // })
+      const appEl = document.getElementById("app");
+      return renderAuthPageComponent({
+        appEl,
+        setUser: (newUser) => {
+          user = newUser;
+          saveUserToLocalStorage(user);
+          goToPage(POSTS_PAGE);
+        },
+        user,
+        goToPage,
+      });
     }
+
 
     throw new Error("страницы не существует");
   };

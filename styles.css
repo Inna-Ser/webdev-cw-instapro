@@ -31,6 +31,9 @@
   line-height: 18px;
   font-weight: 500;
   cursor: pointer;
+  :hover {
+    text-decoration-line: underline;
+}
 }
 
 .logout-button {

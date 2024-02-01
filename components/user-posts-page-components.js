@@ -7,6 +7,7 @@ import {
   pushLikeButton
 } from "../api.js";
 import {
+  goToPage,
   posts,
   user
 } from "../index.js";
@@ -15,11 +16,14 @@ import {
 } from "./header-component.js";
 import {
   ru
-} from "date-fns/locale";
+} from "date-fns/locale/ru";
+import {
+  USER_POSTS_PAGE
+} from "../routes.js";
 
 export function userPostsPageComponents({
   appEl,
-  getToken
+  getToken,
 }) {
   const postListHTML = posts.map((post) => {
       return `
@@ -38,7 +42,7 @@ export function userPostsPageComponents({
       </p>
     </div>
       <button class="delete-button" data-post-id="${post.id}">
-      ${post.user.id === user._id ? `<p class="delete">Удалить</p>` : ""} 
+      ${post.user.id === user?._id ? `<p class="delete">Удалить</p>` : ""} 
       </button>
       </div>
       <h3 class="post-text">
@@ -78,43 +82,40 @@ export function userPostsPageComponents({
           id
         })
         .then(() => {
-          userPostsPageComponents({
-            appEl,
-            getToken
-          })
+          goToPage(USER_POSTS_PAGE, posts[0].user.id)
         })
     })
   }
+}
 
-  const likeButtons = document.querySelectorAll(".like-button");
-  for (let likeButton of likeButtons) {
-    likeButton.addEventListener("click", () => {
-      console.log("test");
-      const id = likeButton.dataset.postId
-      if (likeButton.dataset.liked === "false") {
-        pushLikeButton({
-            token: getToken(),
-            id
-          })
-          .then((data) => {
-            const post = likeButton.closest(".post");
-            console.log(data.likes.length, post)
-            post.querySelector(".post-likes-text").textContent = data.likes.length
-            post.querySelector(".like-img").src = "./assets/images/like-active.svg"
-            likeButton.dataset.liked = "true";
-          })
-      } else {
-        cancelLikeButton({
-            token: getToken(),
-            id
-          })
-          .then((data) => {
-            const post = likeButton.closest(".post");
-            post.querySelector(".post-likes-text").textContent = data.likes.length
-            post.querySelector(".like-img").src = "./assets/images/like-not-active.svg"
-            likeButton.dataset.liked = "false";
-          })
-      }
-    })
-  }
+const likeButtons = document.querySelectorAll(".like-button");
+for (let likeButton of likeButtons) {
+  likeButton.addEventListener("click", () => {
+    console.log("test");
+    const id = likeButton.dataset.postId
+    if (likeButton.dataset.liked === "false") {
+      pushLikeButton({
+          token: getToken(),
+          id
+        })
+        .then((data) => {
+          const post = likeButton.closest(".post");
+          console.log(data.likes.length, post)
+          post.querySelector(".post-likes-text").textContent = data.likes.length
+          post.querySelector(".like-img").src = "./assets/images/like-active.svg"
+          likeButton.dataset.liked = "true";
+        })
+    } else {
+      cancelLikeButton({
+          token: getToken(),
+          id
+        })
+        .then((data) => {
+          const post = likeButton.closest(".post");
+          post.querySelector(".post-likes-text").textContent = data.likes.length
+          post.querySelector(".like-img").src = "./assets/images/like-not-active.svg"
+          likeButton.dataset.liked = "false";
+        })
+    }
+  })
 }
