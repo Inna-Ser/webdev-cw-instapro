@@ -57,10 +57,11 @@ export function userPostsPageComponents({
   const appHtml = `
                 <div class="page-container">
                   <div class="header-container"></div>
-                  <div class="post-header" data-user-id="${posts[0].user.id}">
-            <img src="${posts[0].user.imageUrl}" class="post-header__user-image">
-            <p class="post-header__user-name">${posts[0].user.name}</p>
-        </div>
+                  ${posts.length ? `<div class="post-header" data-user-id="${posts[0].user.id}">
+                  <img src="${posts[0].user.imageUrl}" class="post-header__user-image">
+                  <p class="post-header__user-name">${posts[0].user.name}</p>
+              </div>` : "У пользователя нет постов"}
+                  
                   <ul class="posts">
                     
                    ${postListHTML}
@@ -82,7 +83,9 @@ export function userPostsPageComponents({
           id
         })
         .then(() => {
-          goToPage(USER_POSTS_PAGE, posts[0].user.id)
+          goToPage(USER_POSTS_PAGE, {
+            userId: posts[0].user.id
+          })
         })
     })
   }

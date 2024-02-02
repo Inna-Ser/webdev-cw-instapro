@@ -1,5 +1,4 @@
 import {
-  POSTS_PAGE,
   USER_POSTS_PAGE
 } from "../routes.js";
 import {
@@ -114,9 +113,3 @@ export function renderPostsPageComponent({
   }
 }
 
-const postsElement = document.querySelectorAll(".post");
-for (let postElement of postsElement) {
-  postElement.addEventListener("click", () => {
-
-  })
-}

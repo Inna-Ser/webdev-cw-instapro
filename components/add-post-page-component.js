@@ -24,6 +24,9 @@ export function renderAddPostPageComponent({
         Опишите фотографию:
           <textarea class="input textarea" rows="4"></textarea>
         </label>
+
+        <div class="form-error"></div>
+
         <button class="button" id="add-button">Добавить</button>
         </div>
       </div>
@@ -31,7 +34,10 @@ export function renderAddPostPageComponent({
 
     appEl.innerHTML = appHtml;
 
-    // что это значит?
+    const setError = (message) => {
+      appEl.querySelector(".form-error").textContent = message;
+    };
+
     const uploadImageContainer = appEl.querySelector(".upload-image-container");
 
     renderHeaderComponent({
@@ -44,16 +50,22 @@ export function renderAddPostPageComponent({
         onImageUrlChange(newImageUrl) {
           imageUrl = newImageUrl;
         },
-      });
+      })
     }
     // toDo получить текст по селектору
     let textPost = document.querySelector(".textarea")
     console.log(textPost)
+
     document.getElementById("add-button").addEventListener("click", () => {
+      setError("");
       onAddPostClick({
-        description: textPost.value,
-        imageUrl: imageUrl,
-      });
+          description: textPost.value,
+          imageUrl: imageUrl,
+        })
+        .catch((error) => {
+          console.warn(error);
+          setError(error.message);
+        })
     });
   };
 

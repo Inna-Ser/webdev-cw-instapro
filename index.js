@@ -1,7 +1,6 @@
 import {
   getPosts,
   getUserPosts,
-  loginUser,
   toDoPost
 } from "./api.js";
 import {
@@ -15,7 +14,6 @@ import {
   AUTH_PAGE,
   LOADING_PAGE,
   POSTS_PAGE,
-  POST_PAGE,
   USER_POSTS_PAGE,
 } from "./routes.js";
 import {
@@ -33,7 +31,6 @@ import {
   userPostsPageComponents
 } from "./components/user-posts-page-components.js";
 
-
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
@@ -48,8 +45,6 @@ export const logout = () => {
   removeUserFromLocalStorage();
   goToPage(POSTS_PAGE);
 };
-
-
 /**
  * Включает страницу приложения
  */
@@ -61,7 +56,6 @@ export const goToPage = (newPage, data) => {
       ADD_POSTS_PAGE,
       USER_POSTS_PAGE,
       LOADING_PAGE,
-      POST_PAGE,
     ].includes(newPage)
   ) {
     if (newPage === ADD_POSTS_PAGE) {
@@ -88,7 +82,6 @@ export const goToPage = (newPage, data) => {
         });
     }
 
-
     if (newPage === USER_POSTS_PAGE) {
       page = LOADING_PAGE;
       renderApp();
@@ -104,7 +97,7 @@ export const goToPage = (newPage, data) => {
           page = newPage;
           page = USER_POSTS_PAGE;
           posts = userPosts;
-          renderApp();
+          renderApp(data.userId);
         })
     }
 
@@ -123,13 +116,11 @@ export const goToPage = (newPage, data) => {
       });
     }
 
-
     throw new Error("страницы не существует");
   };
 }
 
-
-const renderApp = () => {
+const renderApp = (id) => {
   const appEl = document.getElementById("app");
   if (page === LOADING_PAGE) {
     return renderLoadingPageComponent({
@@ -178,14 +169,15 @@ const renderApp = () => {
       getToken
     })
   }
+
   if (page === USER_POSTS_PAGE) {
     // TODO: реализовать страницу фотографию пользвателя
     return userPostsPageComponents({
       appEl,
-      getToken
+      getToken,
+      id
     });
   }
-
 };
 
 goToPage(POSTS_PAGE);

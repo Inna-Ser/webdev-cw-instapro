@@ -48,17 +48,6 @@ export function getUserPosts({
     });
 }
 
-export function getPost({
-  token,
-  id
-}) {
-  return fetch(`${postsHost}/${id}`, {
-    method: "GET",
-    headers: {
-      Authorization: token
-    }
-  })
-}
 // https://github.com/GlebkaF/webdev-hw-api/blob/main/pages/api/user/README.md#%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%D1%81%D1%8F
 export function registerUser({
   login,
@@ -69,9 +58,17 @@ export function registerUser({
   return fetch(baseHost + "/api/user", {
     method: "POST",
     body: JSON.stringify({
-      login,
+      login: login
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;'),
       password,
-      name,
+      name: name
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;'),
       imageUrl,
     }),
   }).then((response) => {
@@ -89,7 +86,11 @@ export function loginUser({
   return fetch(baseHost + "/api/user/login", {
     method: "POST",
     body: JSON.stringify({
-      login,
+      login: login
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;'),
       password,
     }),
   }).then((response) => {
@@ -121,20 +122,25 @@ export function toDoPost({
   imageUrl
 }) {
   return fetch(postsHost, {
-    method: "POST",
-    headers: {
-      Authorization: token
-    },
-    body: JSON.stringify({
-      description: postText
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll('QUOTE_END', '</div>'),
-      imageUrl
-    }),
-  })
+      method: "POST",
+      headers: {
+        Authorization: token
+      },
+      body: JSON.stringify({
+        description: postText
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;'),
+        imageUrl
+      }),
+    })
+    .then((response) => {
+      if (response.status === 400) {
+        throw new Error("Поле ввода картинки и/или описания не должно быть пустым")
+      }
+      return response.json();
+    })
 }
 
 export function pushLikeButton({
