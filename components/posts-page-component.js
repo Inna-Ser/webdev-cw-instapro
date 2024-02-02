@@ -30,6 +30,9 @@ export function renderPostsPageComponent({
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
+  const locales = {
+    ru
+  }
   const postListHTML = posts.map((post) => {
       return `<li class="post">
     <div class="post-header" data-user-id="${post.user.id}">
@@ -52,7 +55,7 @@ export function renderPostsPageComponent({
         ${post.description}
       </h3>
     <p class="post-date">
-      ${formatDistanceToNow(new Date(post.createdAt), ru)}
+      ${formatDistanceToNow(new Date(post.createdAt), {locale: ru})}
     </p>
   </li>`
     })
@@ -111,4 +114,3 @@ export function renderPostsPageComponent({
     })
   }
 }
-

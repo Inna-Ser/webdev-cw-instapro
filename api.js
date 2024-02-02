@@ -1,10 +1,8 @@
 // Замени на свой, чтобы получить независимый от других набор данных.
-
 // "боевая" версия инстапро лежит в ключе prod
 const personalKey = "innaSerebriakova";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
-
 export function getPosts({
   token
 }) {
@@ -18,13 +16,13 @@ export function getPosts({
       if (response.status === 401) {
         throw new Error("Нет авторизации");
       }
+
       return response.json();
     })
     .then((data) => {
       return data.posts;
     });
 }
-
 export function getUserPosts({
   token,
   id
@@ -39,13 +37,13 @@ export function getUserPosts({
       if (response.status === 401) {
         throw new Error("Нет авторизации");
       }
+
       return response.json();
     })
     .then((data) => {
       return data.posts;
     });
 }
-
 // https://github.com/GlebkaF/webdev-hw-api/blob/main/pages/api/user/README.md#%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%D1%81%D1%8F
 export function registerUser({
   login,
@@ -76,7 +74,6 @@ export function registerUser({
     return response.json();
   });
 }
-
 export function loginUser({
   login,
   password
@@ -98,13 +95,13 @@ export function loginUser({
     return response.json();
   });
 }
-
 // Загружает картинку в облако, возвращает url загруженной картинки
 export function uploadImage({
   file
 }) {
   const data = new FormData();
   data.append("file", file);
+
   return fetch(baseHost + "/api/upload/image", {
     method: "POST",
     body: data,
@@ -112,7 +109,6 @@ export function uploadImage({
     return response.json();
   });
 }
-
 export function toDoPost({
   postText,
   token,
@@ -139,7 +135,6 @@ export function toDoPost({
       return response.json();
     })
 }
-
 export function pushLikeButton({
   token,
   id
@@ -159,7 +154,6 @@ export function pushLikeButton({
       return data.post;
     })
 }
-
 export function cancelLikeButton({
   token,
   id
@@ -179,7 +173,6 @@ export function cancelLikeButton({
       return data.post;
     })
 }
-
 export function deletePost({
   token,
   id
