@@ -61,7 +61,6 @@ export function renderPostsPageComponent({
               <div class="page-container">
                 <div class="header-container"></div>
                 <ul class="posts">
-                  
                  ${postListHTML}
                 </ul>
               </div>`;

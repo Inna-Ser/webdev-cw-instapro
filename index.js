@@ -4,7 +4,8 @@ import {
   toDoPost
 } from "./api.js";
 import {
-  renderAddPostPageComponent
+  renderAddPostPageComponent,
+  setError
 } from "./components/add-post-page-component.js";
 import {
   renderAuthPageComponent
@@ -115,7 +116,6 @@ export const goToPage = (newPage, data) => {
         goToPage,
       });
     }
-
     throw new Error("страницы не существует");
   };
 }
@@ -151,6 +151,10 @@ const renderApp = (id) => {
         imageUrl
       }) {
         // TODO: реализовать добавление поста в API поместить функцию из API прокинумт токен
+        const setError = (message) => {
+          appEl.querySelector(".form-error").textContent = message;
+        };
+        setError("");
         toDoPost({
             postText: description,
             token: getToken(),
@@ -158,7 +162,11 @@ const renderApp = (id) => {
           })
           .then(() => {
             goToPage(POSTS_PAGE)
-          });
+          })
+          .catch((error) => {
+            console.warn(error);
+            setError(error.message);
+          })
       },
     });
   }

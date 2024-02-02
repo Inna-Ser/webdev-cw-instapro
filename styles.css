@@ -31,14 +31,21 @@
   line-height: 18px;
   font-weight: 500;
   cursor: pointer;
-  :hover {
-    text-decoration-line: underline;
-}
 }
 
 .logout-button {
   width: 130px;
   text-align: right;
+  font-family: 'StratosSkyeng';
+  font-size: medium;
+}
+
+.current-user {    
+  display: flex;
+  align-items: center;
+  padding-top: 15px;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .posts {
@@ -63,6 +70,11 @@
   object-fit: cover;
   border-radius: 40px;
   margin-right: 10px;
+}
+
+.post-header__user-name {    
+  font-style: normal;
+  font-size: 16px;
 }
 
 .post-image-container {
@@ -90,7 +102,6 @@
 
 .like-button {
     border: none;
-    border-color: transparent;
     background-color: transparent;
 }
 
@@ -107,9 +118,10 @@
 .delete-button {
   border: none;
   background-color: transparent;
-  :hover {
-    text-decoration-line: underline;
-  }
+  text-align: right;
+  font-family: 'StratosSkyeng';
+  font-size: medium;
+  cursor: pointer;
 }
 
 .user-name {
@@ -146,7 +158,7 @@
 }
 
 .posts-user-header__user-name {
-  font-size: 28px;
+  font-size: 18px;
   line-height: 35px;
 }
 

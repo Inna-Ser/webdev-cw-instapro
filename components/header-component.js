@@ -24,11 +24,16 @@ export function renderHeaderComponent({
       </button>
       ${
         user
-          ? `<button title="${user.name}" class="header-button logout-button">Выйти</button>`
+          ? `<button title="${user.name}" class="header-button logout-button">Выйти</button>
+          `
           : ""
-      }  
+      } 
   </div>
-  
+  ${user ? `<div class="current-user">
+          <p class="post-header__user-name">${user.name}</p>     
+          <img src="${user.imageUrl}" class="post-header__user-image">
+          </div>` : ""
+            }
 `;
 
   element

@@ -32,18 +32,17 @@ export function userPostsPageComponents({
         <img class="post-image" src="${post.imageUrl}">
       </div>
       <div class="functional-container">
-      <div class="post-likes">
-      <button class="like-button" data-liked="${post.isLiked}" data-post-id="${post.id}" 
-      >
-        <img class="like-img" src="./assets/images/like-${post.isLiked ? '' : 'not-'}active.svg">
-      </button>
-      <p class="post-likes-text">
-        ${post.likes.length}
-      </p>
-    </div>
-      <button class="delete-button" data-post-id="${post.id}">
-      ${post.user.id === user?._id ? `<p class="delete">Удалить</p>` : ""} 
-      </button>
+        <div class="post-likes">
+          <button class="like-button" data-liked="${post.isLiked}" data-post-id="${post.id}">
+            <img class="like-img" src="./assets/images/like-${post.isLiked ? '' : 'not-'}active.svg">
+          </button>
+          <p class="post-likes-text">
+             ${post.likes.length}
+          </p>
+        </div>
+        <button class="delete-button" data-post-id="${post.id}">
+          ${post.user.id === user?._id ? `<p class="delete">Удалить</p>` : ""} 
+        </button>
       </div>
       <h3 class="post-text">
         ${post.description}
@@ -55,18 +54,17 @@ export function userPostsPageComponents({
     })
     .join('')
   const appHtml = `
-                <div class="page-container">
-                  <div class="header-container"></div>
+              <div class="page-container">
+                <div class="header-container"></div>
                   ${posts.length ? `<div class="post-header" data-user-id="${posts[0].user.id}">
                   <img src="${posts[0].user.imageUrl}" class="post-header__user-image">
                   <p class="post-header__user-name">${posts[0].user.name}</p>
-              </div>` : "У пользователя нет постов"}
+                </div>` : "У пользователя нет постов"}
                   
                   <ul class="posts">
-                    
                    ${postListHTML}
                   </ul>
-                </div>`;
+              </div>`
 
   appEl.innerHTML = appHtml;
 

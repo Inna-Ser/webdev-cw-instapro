@@ -34,10 +34,6 @@ export function renderAddPostPageComponent({
 
     appEl.innerHTML = appHtml;
 
-    const setError = (message) => {
-      appEl.querySelector(".form-error").textContent = message;
-    };
-
     const uploadImageContainer = appEl.querySelector(".upload-image-container");
 
     renderHeaderComponent({
@@ -57,14 +53,9 @@ export function renderAddPostPageComponent({
     console.log(textPost)
 
     document.getElementById("add-button").addEventListener("click", () => {
-      setError("");
       onAddPostClick({
           description: textPost.value,
           imageUrl: imageUrl,
-        })
-        .catch((error) => {
-          console.warn(error);
-          setError(error.message);
         })
     });
   };

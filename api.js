@@ -18,7 +18,6 @@ export function getPosts({
       if (response.status === 401) {
         throw new Error("Нет авторизации");
       }
-
       return response.json();
     })
     .then((data) => {
@@ -40,7 +39,6 @@ export function getUserPosts({
       if (response.status === 401) {
         throw new Error("Нет авторизации");
       }
-
       return response.json();
     })
     .then((data) => {
@@ -107,7 +105,6 @@ export function uploadImage({
 }) {
   const data = new FormData();
   data.append("file", file);
-
   return fetch(baseHost + "/api/upload/image", {
     method: "POST",
     body: data,
