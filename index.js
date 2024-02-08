@@ -5,7 +5,6 @@ import {
 } from "./api.js";
 import {
   renderAddPostPageComponent,
-  setError
 } from "./components/add-post-page-component.js";
 import {
   renderAuthPageComponent
@@ -88,7 +87,6 @@ export const goToPage = (newPage, data) => {
       renderApp();
       // TODO: реализовать получение постов юзера из API
       const postUserId = document.getElementById("${post.user.id}")
-
       return getUserPosts({
           token: getToken(),
           id: data.userId

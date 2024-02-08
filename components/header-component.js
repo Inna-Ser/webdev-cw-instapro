@@ -6,7 +6,8 @@ import {
 import {
   ADD_POSTS_PAGE,
   AUTH_PAGE,
-  POSTS_PAGE
+  POSTS_PAGE,
+  USER_POSTS_PAGE
 } from "../routes.js";
 
 export function renderHeaderComponent({
@@ -49,10 +50,6 @@ export function renderHeaderComponent({
   element.querySelector(".logo").addEventListener("click", () => {
     goToPage(POSTS_PAGE);
   });
-
-  // element.querySelector(".enter").addEventListener("click", () => {
-  //   goToPage(AUTH_PAGE);
-  // })
 
   element.querySelector(".logout-button")?.addEventListener("click", logout);
 

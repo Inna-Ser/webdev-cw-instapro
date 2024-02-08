@@ -55,7 +55,7 @@ export function renderPostsPageComponent({
         ${post.description}
       </h3>
     <p class="post-date">
-      ${formatDistanceToNow(new Date(post.createdAt), {locale: ru})}
+      ${formatDistanceToNow(new Date(post.createdAt), {locale: ru})} назад
     </p>
   </li>`
     })
