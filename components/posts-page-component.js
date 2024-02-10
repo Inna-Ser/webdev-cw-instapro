@@ -48,7 +48,7 @@ export function renderPostsPageComponent({
         <img class="like-img" src="./assets/images/like-${post.isLiked ? '' : 'not-'}active.svg">
       </button>
       <p class="post-likes-text">
-        ${post.likes.length}
+        ${post.likes.length > 1 ? `${post.user.name} и еще ${post.likes.length - 1}` : `${post.likes.length} ${post.user.name}`}
       </p>
     </div>
     <h3 class="post-text">
@@ -85,8 +85,8 @@ export function renderPostsPageComponent({
   const likeButtons = document.querySelectorAll(".like-button");
   for (let likeButton of likeButtons) {
     likeButton.addEventListener("click", () => {
-      console.log("test");
       const id = likeButton.dataset.postId
+      const likeText = document.querySelectorAll(".post-likes-text")
       if (likeButton.dataset.liked === "false") {
         pushLikeButton({
             token: getToken(),
@@ -95,7 +95,7 @@ export function renderPostsPageComponent({
           .then((data) => {
             const post = likeButton.closest(".post");
             console.log(data.likes.length, post)
-            post.querySelector(".post-likes-text").textContent = data.likes.length
+            post.querySelector(".post-likes-text").textContent = `${data.user.name} ${data.likes.length > 1 ? `и еще ${data.likes.length - 1}` : ""}`
             post.querySelector(".like-img").src = "./assets/images/like-active.svg"
             likeButton.dataset.liked = "true";
           })
@@ -106,7 +106,7 @@ export function renderPostsPageComponent({
           })
           .then((data) => {
             const post = likeButton.closest(".post");
-            post.querySelector(".post-likes-text").textContent = data.likes.length
+            post.querySelector(".post-likes-text").textContent = `${data.user.name} ${data.likes.length > 1 ? `и еще ${data.likes.length - 1}` : ""}`
             post.querySelector(".like-img").src = "./assets/images/like-not-active.svg"
             likeButton.dataset.liked = "false";
           })

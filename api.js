@@ -3,6 +3,7 @@
 const personalKey = "innaSerebriakova";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
+
 export function getPosts({
   token
 }) {
@@ -16,13 +17,13 @@ export function getPosts({
       if (response.status === 401) {
         throw new Error("Нет авторизации");
       }
-
       return response.json();
     })
     .then((data) => {
       return data.posts;
     });
 }
+
 export function getUserPosts({
   token,
   id
@@ -37,7 +38,6 @@ export function getUserPosts({
       if (response.status === 401) {
         throw new Error("Нет авторизации");
       }
-
       return response.json();
     })
     .then((data) => {
@@ -74,6 +74,7 @@ export function registerUser({
     return response.json();
   });
 }
+
 export function loginUser({
   login,
   password
@@ -96,6 +97,7 @@ export function loginUser({
   });
 }
 // Загружает картинку в облако, возвращает url загруженной картинки
+
 export function uploadImage({
   file
 }) {
@@ -109,6 +111,7 @@ export function uploadImage({
     return response.json();
   });
 }
+
 export function toDoPost({
   postText,
   token,
@@ -135,6 +138,7 @@ export function toDoPost({
       return response.json();
     })
 }
+
 export function pushLikeButton({
   token,
   id
@@ -146,14 +150,16 @@ export function pushLikeButton({
       }
     })
     .then((response) => {
-      console.log(response)
-      return response.json();
+      if (response.status === 401) {
+        alert("Нет авторизации");
+      } else
+        return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data.post;
     })
 }
+
 export function cancelLikeButton({
   token,
   id
@@ -165,14 +171,17 @@ export function cancelLikeButton({
       }
     })
     .then((response) => {
-      console.log(response)
-      return response.json();
+      if (response.status === 401) {
+        alert("Нет авторизации");
+      } else
+        return response.json();
     })
     .then((data) => {
       console.log(data);
       return data.post;
     })
 }
+
 export function deletePost({
   token,
   id

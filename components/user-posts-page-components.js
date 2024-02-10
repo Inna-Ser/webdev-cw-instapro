@@ -34,11 +34,11 @@ export function userPostsPageComponents({
       <div class="functional-container">
         <div class="post-likes">
           <button class="like-button" data-liked="${post.isLiked}" data-post-id="${post.id}">
-            <img class="like-img" src="./assets/images/like-${post.user.id.isLiked === user.id? '' : 'not-'}active.svg">
+            <img class="like-img" src="./assets/images/like-${post.user.id.isLiked === user? '' : 'not-'}active.svg">
           </button>
           <p class="post-likes-text">
-             ${post.likes.length}
-          </p>
+        ${post.likes.length > 1 ? `${post.user.name} и еще ${post.likes.length - 1}` : `${post.likes.length} ${post.user.name}`}
+      </p>
         </div>
         <button class="delete-button" data-post-id="${post.id}">
           ${post.user.id === user?._id ? `<p class="delete">Удалить</p>` : ""} 
@@ -90,7 +90,6 @@ export function userPostsPageComponents({
   const likeButtons = document.querySelectorAll(".like-button");
   for (let likeButton of likeButtons) {
     likeButton.addEventListener("click", () => {
-      console.log("test");
       const id = likeButton.dataset.postId
       if (likeButton.dataset.liked === "false") {
         pushLikeButton({
@@ -100,7 +99,7 @@ export function userPostsPageComponents({
           .then((data) => {
             const post = likeButton.closest(".post");
             console.log(data.likes.length, post)
-            post.querySelector(".post-likes-text").textContent = data.likes.length
+            post.querySelector(".post-likes-text").textContent = `${data.user.name} ${data.likes.length > 1 ? `и еще ${data.likes.length - 1}` : ""}`
             post.querySelector(".like-img").src = "./assets/images/like-active.svg"
             likeButton.dataset.liked = "true";
           })
@@ -111,7 +110,7 @@ export function userPostsPageComponents({
           })
           .then((data) => {
             const post = likeButton.closest(".post");
-            post.querySelector(".post-likes-text").textContent = data.likes.length
+            post.querySelector(".post-likes-text").textContent = `${data.user.name} ${data.likes.length > 1 ? `и еще ${data.likes.length - 1}` : ""}`
             post.querySelector(".like-img").src = "./assets/images/like-not-active.svg"
             likeButton.dataset.liked = "false";
           })
