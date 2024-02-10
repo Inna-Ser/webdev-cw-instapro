@@ -49,6 +49,7 @@ export const logout = () => {
  * Включает страницу приложения
  */
 export const goToPage = (newPage, data) => {
+
   if (
     [
       POSTS_PAGE,
@@ -58,8 +59,8 @@ export const goToPage = (newPage, data) => {
       LOADING_PAGE,
     ].includes(newPage)
   ) {
+
     if (newPage === ADD_POSTS_PAGE) {
-      // Если пользователь не авторизован, то отправляем его на авторизацию перед добавлением поста
       page = user ? ADD_POSTS_PAGE : AUTH_PAGE;
       return renderApp();
     }
@@ -77,7 +78,6 @@ export const goToPage = (newPage, data) => {
           renderApp();
         })
         .catch((error) => {
-          console.error(error);
           goToPage(POSTS_PAGE);
         });
     }
@@ -85,14 +85,12 @@ export const goToPage = (newPage, data) => {
     if (newPage === USER_POSTS_PAGE) {
       page = LOADING_PAGE;
       renderApp();
-      // TODO: реализовать получение постов юзера из API
       const postUserId = document.getElementById("${post.user.id}")
       return getUserPosts({
           token: getToken(),
           id: data.userId
         })
         .then((userPosts) => {
-          console.log("Открываю страницу пользователя: ", data.userId);
           page = newPage;
           page = USER_POSTS_PAGE;
           posts = userPosts;
@@ -148,7 +146,6 @@ const renderApp = (id) => {
         description,
         imageUrl
       }) {
-        // TODO: реализовать добавление поста в API поместить функцию из API прокинумт токен
         const setError = (message) => {
           appEl.querySelector(".form-error").textContent = message;
         };
@@ -162,7 +159,6 @@ const renderApp = (id) => {
             goToPage(POSTS_PAGE)
           })
           .catch((error) => {
-            console.warn(error);
             setError(error.message);
           })
       },
@@ -177,7 +173,6 @@ const renderApp = (id) => {
   }
 
   if (page === USER_POSTS_PAGE) {
-    // TODO: реализовать страницу фотографию пользвателя
     return userPostsPageComponents({
       appEl,
       getToken,

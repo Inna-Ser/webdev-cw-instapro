@@ -23,13 +23,6 @@ export function renderPostsPageComponent({
   appEl,
   getToken
 }) {
-  // TODO: реализовать рендер постов из api
-  console.log("Актуальный список постов:", posts);
-
-  /**
-   * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
-   * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
-   */
   const locales = {
     ru
   }
@@ -37,7 +30,7 @@ export function renderPostsPageComponent({
       return `<li class="post">
     <div class="post-header" data-user-id="${post.user.id}">
         <img src="${post.user.imageUrl}" class="post-header__user-image">
-        <h3 class="post-header__user-name">${post.user.name}</h3>
+        <p class="post-header__user-name">${post.user.name}</p>
     </div>
     <div class="post-image-container">
       <img class="post-image" src="${post.imageUrl}">
@@ -51,9 +44,9 @@ export function renderPostsPageComponent({
         ${post.likes.length > 1 ? `${post.user.name} и еще ${post.likes.length - 1}` : `${post.likes.length} ${post.user.name}`}
       </p>
     </div>
-    <h3 class="post-text">
-        ${post.description}
-      </h3>
+    <p class="post-text">
+        ${post.user.name}: ${post.description}
+      </p>
     <p class="post-date">
       ${formatDistanceToNow(new Date(post.createdAt), {locale: ru})} назад
     </p>
@@ -94,8 +87,8 @@ export function renderPostsPageComponent({
           })
           .then((data) => {
             const post = likeButton.closest(".post");
-            console.log(data.likes.length, post)
-            post.querySelector(".post-likes-text").textContent = `${data.user.name} ${data.likes.length > 1 ? `и еще ${data.likes.length - 1}` : ""}`
+            post.querySelector(".post-likes-text").textContent =
+              `${data.user.name} ${data.likes.length > 1 ? `и еще ${data.likes.length - 1}` : ""}`
             post.querySelector(".like-img").src = "./assets/images/like-active.svg"
             likeButton.dataset.liked = "true";
           })

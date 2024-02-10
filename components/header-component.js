@@ -7,7 +7,6 @@ import {
   ADD_POSTS_PAGE,
   AUTH_PAGE,
   POSTS_PAGE,
-  USER_POSTS_PAGE
 } from "../routes.js";
 
 export function renderHeaderComponent({

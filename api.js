@@ -96,8 +96,8 @@ export function loginUser({
     return response.json();
   });
 }
-// Загружает картинку в облако, возвращает url загруженной картинки
 
+// Загружает картинку в облако, возвращает url загруженной картинки
 export function uploadImage({
   file
 }) {
@@ -177,7 +177,6 @@ export function cancelLikeButton({
         return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data.post;
     })
 }

@@ -44,9 +44,9 @@ export function userPostsPageComponents({
           ${post.user.id === user?._id ? `<p class="delete">Удалить</p>` : ""} 
         </button>
       </div>
-      <h3 class="post-text">
-        ${post.description}
-      </h3>
+      <p class="post-text">
+      ${post.user.name}: ${post.description}
+      </p>
       <p class="post-date">
       ${formatDistanceToNow(new Date(post.createdAt), {locale: ru})} назад
       </p>
@@ -98,7 +98,6 @@ export function userPostsPageComponents({
           })
           .then((data) => {
             const post = likeButton.closest(".post");
-            console.log(data.likes.length, post)
             post.querySelector(".post-likes-text").textContent = `${data.user.name} ${data.likes.length > 1 ? `и еще ${data.likes.length - 1}` : ""}`
             post.querySelector(".like-img").src = "./assets/images/like-active.svg"
             likeButton.dataset.liked = "true";

@@ -11,7 +11,6 @@ export function renderAddPostPageComponent({
 }) {
   let imageUrl = ""
   const render = () => {
-    // TODO: Реализовать страницу добавления поста
     const appHtml = `
     <div class="page-container">
       <div class="header-container">
@@ -48,9 +47,7 @@ export function renderAddPostPageComponent({
         },
       })
     }
-    // toDo получить текст по селектору
     let textPost = document.querySelector(".textarea")
-    console.log(textPost)
 
     document.getElementById("add-button").addEventListener("click", () => {
       onAddPostClick({
