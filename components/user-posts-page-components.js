@@ -20,6 +20,9 @@ import {
 import {
   USER_POSTS_PAGE
 } from "../routes.js";
+import {
+  replaceTags
+} from "../helpers.js";
 
 export function userPostsPageComponents({
   appEl,
@@ -37,7 +40,7 @@ export function userPostsPageComponents({
             <img class="like-img" src="./assets/images/like-${post.user.id.isLiked === user? '' : 'not-'}active.svg">
           </button>
           <p class="post-likes-text">
-        ${post.likes.length > 1 ? `${post.user.name} и еще ${post.likes.length - 1}` : `${post.likes.length} ${post.user.name}`}
+        ${post.likes.length > 1 ? `${replaceTags(post.user.name)} и еще ${post.likes.length - 1}` : `${post.likes.length} ${replaceTags(post.user.name)}`}
       </p>
         </div>
         <button class="delete-button" data-post-id="${post.id}">
@@ -45,7 +48,7 @@ export function userPostsPageComponents({
         </button>
       </div>
       <p class="post-text">
-      ${post.user.name}: ${post.description}
+      ${replaceTags(post.user.name)}: ${replaceTags(post.description)}
       </p>
       <p class="post-date">
       ${formatDistanceToNow(new Date(post.createdAt), {locale: ru})} назад

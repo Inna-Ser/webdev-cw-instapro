@@ -1,4 +1,5 @@
 // Замени на свой, чтобы получить независимый от других набор данных.
+
 // "боевая" версия инстапро лежит в ключе prod
 const personalKey = "innaSerebriakova";
 const baseHost = "https://webdev-hw-api.vercel.app";
@@ -54,17 +55,9 @@ export function registerUser({
   return fetch(baseHost + "/api/user", {
     method: "POST",
     body: JSON.stringify({
-      login: login
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;'),
+      login: login,
       password,
-      name: name
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;'),
+      name: name,
       imageUrl,
     }),
   }).then((response) => {
@@ -82,11 +75,7 @@ export function loginUser({
   return fetch(baseHost + "/api/user/login", {
     method: "POST",
     body: JSON.stringify({
-      login: login
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;'),
+      login: login,
       password,
     }),
   }).then((response) => {
@@ -123,11 +112,7 @@ export function toDoPost({
         Authorization: token
       },
       body: JSON.stringify({
-        description: postText
-          .replaceAll('&', '&amp;')
-          .replaceAll('<', '&lt;')
-          .replaceAll('>', '&gt;')
-          .replaceAll('"', '&quot;'),
+        description: postText,
         imageUrl
       }),
     })

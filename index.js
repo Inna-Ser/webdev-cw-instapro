@@ -35,6 +35,10 @@ export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
 
+export function setPosts(newPosts) {
+  posts = newPosts;
+}
+
 const getToken = () => {
   const token = user ? `Bearer ${user.token}` : undefined;
   return token;
@@ -116,7 +120,7 @@ export const goToPage = (newPage, data) => {
   };
 }
 
-const renderApp = (id) => {
+export const renderApp = (id) => {
   const appEl = document.getElementById("app");
   if (page === LOADING_PAGE) {
     return renderLoadingPageComponent({
@@ -168,7 +172,7 @@ const renderApp = (id) => {
   if (page === POSTS_PAGE) {
     return renderPostsPageComponent({
       appEl,
-      getToken
+      getToken,
     })
   }
 

@@ -3,6 +3,9 @@ import {
   registerUser
 } from "../api.js";
 import {
+  replaceTegs
+} from "../helpers.js";
+import {
   renderHeaderComponent
 } from "./header-component.js";
 import {

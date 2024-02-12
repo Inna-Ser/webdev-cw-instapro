@@ -51,11 +51,11 @@ export function renderAddPostPageComponent({
 
     document.getElementById("add-button").addEventListener("click", () => {
       onAddPostClick({
-          description: textPost.value,
-          imageUrl: imageUrl,
-        })
+        description: textPost.value,
+        imageUrl: imageUrl,
+      })
     });
   };
-  
+
   render();
 }
