@@ -40,8 +40,8 @@ export function userPostsPageComponents({
             <img class="like-img" src="./assets/images/like-${post.user.id.isLiked === user? '' : 'not-'}active.svg">
           </button>
           <p class="post-likes-text">
-        ${post.likes.length > 1 ? `${replaceTags(post.user.name)} и еще ${post.likes.length - 1}` : `${post.likes.length} ${replaceTags(post.user.name)}`}
-      </p>
+          ${post.likes.length > 1 ? `${replaceTags(post.likes[0].name)} и еще ${post.likes.length - 1}` : ''}
+          </p>
         </div>
         <button class="delete-button" data-post-id="${post.id}">
           ${post.user.id === user?._id ? `<p class="delete">Удалить</p>` : ""} 

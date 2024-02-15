@@ -21,7 +21,9 @@ import {
 import {
   ru
 } from "date-fns/locale";
-import { replaceTags } from "../helpers.js";
+import {
+  replaceTags
+} from "../helpers.js";
 
 export function renderPostsPageComponent({
   appEl,
@@ -45,7 +47,7 @@ export function renderPostsPageComponent({
         <img class="like-img" src="./assets/images/like-${post.isLiked ? '' : 'not-'}active.svg">
       </button>
       <p class="post-likes-text">
-        ${post.likes.length > 1 ? `${replaceTags(post.user.name)} и еще ${post.likes.length - 1}` : `${post.likes.length} ${replaceTags(post.user.name)}`}
+      ${post.likes.length > 1 ? `${replaceTags(post.likes[0].name)} и еще ${post.likes.length - 1}` : ``}
       </p>
     </div>
     <p class="post-text">
