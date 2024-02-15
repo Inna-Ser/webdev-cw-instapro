@@ -23,7 +23,6 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
                 />
                 Выберите фото
             </label>
-          
       `
       }
   </div>
@@ -55,4 +54,8 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
   };
 
   render();
+}
+
+export function renderToDoPostComponent() {
+  
 }
