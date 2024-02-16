@@ -47,7 +47,7 @@ export function renderPostsPageComponent({
         <img class="like-img" src="./assets/images/like-${post.isLiked ? '' : 'not-'}active.svg">
       </button>
       <p class="post-likes-text">
-      ${post.likes.length > 1 ? `${replaceTags(post.likes[0].name)} и еще ${post.likes.length - 1}` : ``}
+      ${!post.likes.length ? '0' : post.likes.length > 1 ?  `${replaceTags(post.likes[0].name)} и еще ${post.likes.length - 1}` : `${replaceTags(post.likes[0].name)}`}
       </p>
     </div>
     <p class="post-text">
@@ -85,7 +85,6 @@ export function renderPostsPageComponent({
   for (let likeButton of likeButtons) {
     likeButton.addEventListener("click", () => {
       const id = likeButton.dataset.postId
-      const likeText = document.querySelectorAll(".post-likes-text")
       if (likeButton.dataset.liked === "false") {
         pushLikeButton({
             token: getToken(),
@@ -105,7 +104,7 @@ export function renderPostsPageComponent({
             token: getToken(),
             id
           })
-          .then((data) => {
+          .then(() => {
             getPosts({
                 token: getToken()
               })

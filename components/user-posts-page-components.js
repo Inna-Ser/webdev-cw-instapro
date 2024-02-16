@@ -4,6 +4,7 @@ import {
 import {
   cancelLikeButton,
   deletePost,
+  getUserPosts,
   pushLikeButton
 } from "../api.js";
 import {
@@ -37,10 +38,10 @@ export function userPostsPageComponents({
       <div class="functional-container">
         <div class="post-likes">
           <button class="like-button" data-liked="${post.isLiked}" data-post-id="${post.id}">
-            <img class="like-img" src="./assets/images/like-${post.user.id.isLiked === user? '' : 'not-'}active.svg">
+            <img class="like-img" src="./assets/images/like-${post.isLiked ? '' : 'not-'}active.svg">
           </button>
           <p class="post-likes-text">
-          ${post.likes.length > 1 ? `${replaceTags(post.likes[0].name)} и еще ${post.likes.length - 1}` : ''}
+          ${!post.likes.length ? '0' : post.likes.length > 1 ?  `${replaceTags(post.likes[0].name)} и еще ${post.likes.length - 1}` : `${replaceTags(post.likes[0].name)}`}
           </p>
         </div>
         <button class="delete-button" data-post-id="${post.id}">
@@ -61,7 +62,7 @@ export function userPostsPageComponents({
                 <div class="header-container"></div>
                   ${posts.length ? `<div class="post-header" data-user-id="${posts[0].user.id}">
                   <img src="${posts[0].user.imageUrl}" class="post-header__user-image">
-                  <p class="post-header__user-name">${posts[0].user.name}</p>
+                  <p class="post-header__user-name">${replaceTags(posts[0].user.name)}</p>
                 </div>` : "У пользователя нет постов"}
                   
                   <ul class="posts">
@@ -100,10 +101,15 @@ export function userPostsPageComponents({
             id
           })
           .then((data) => {
-            const post = likeButton.closest(".post");
-            post.querySelector(".post-likes-text").textContent = `${data.user.name} ${data.likes.length > 1 ? `и еще ${data.likes.length - 1}` : ""}`
-            post.querySelector(".like-img").src = "./assets/images/like-active.svg"
-            likeButton.dataset.liked = "true";
+            getUserPosts({
+                token: getToken(),
+                id
+              })
+              .then(() => {
+                goToPage(USER_POSTS_PAGE, {
+                  userId: posts[0].user.id
+                })
+              })
           })
       } else {
         cancelLikeButton({
@@ -111,10 +117,15 @@ export function userPostsPageComponents({
             id
           })
           .then((data) => {
-            const post = likeButton.closest(".post");
-            post.querySelector(".post-likes-text").textContent = `${data.user.name} ${data.likes.length > 1 ? `и еще ${data.likes.length - 1}` : ""}`
-            post.querySelector(".like-img").src = "./assets/images/like-not-active.svg"
-            likeButton.dataset.liked = "false";
+            getUserPosts({
+                token: getToken(),
+                id
+              })
+              .then(() => {
+                goToPage(USER_POSTS_PAGE, {
+                  userId: posts[0].user.id
+                })
+              })
           })
       }
     })

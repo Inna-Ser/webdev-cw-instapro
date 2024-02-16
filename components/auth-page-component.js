@@ -3,8 +3,9 @@ import {
   registerUser
 } from "../api.js";
 import {
-  replaceTegs
+  replaceTags
 } from "../helpers.js";
+
 import {
   renderHeaderComponent
 } from "./header-component.js";
@@ -137,9 +138,9 @@ export function renderAuthPageComponent({
         }
 
         registerUser({
-            login: login,
+            login: replaceTags(login),
             password: password,
-            name: name,
+            name: replaceTags(name),
             imageUrl,
           })
           .then((user) => {
